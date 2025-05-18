@@ -14,13 +14,12 @@ import com.market.market.entity.Promotion;
 @Repository
 public interface PromotionRepository extends JpaRepository<Promotion, Integer> {
 
-     boolean existsByFromDateAndToDateAndDiscountPct(LocalDate fromDate, LocalDate toDate, BigDecimal discountPct);
+  boolean existsByFromDateAndToDateAndDiscountPct(LocalDate fromDate, LocalDate toDate, BigDecimal discountPct);
 
-        @Query("""
+  @Query("""
       SELECT p
-        FROM Promotion p
-       WHERE p.fromDate <= :date
-         AND p.toDate   >= :date
-      """)
-    List<Promotion> findActivePromotions(@Param("date") LocalDate date);
+         FROM Promotion p
+        WHERE p.fromDate = :today
+        """)
+  List<Promotion> findPromotionsStartingToday(@Param("today") LocalDate today);
 }
