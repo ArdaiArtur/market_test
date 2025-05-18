@@ -29,4 +29,16 @@ public interface PromotionApplyRepository extends JpaRepository<PromotionApply, 
        WHERE pa.promotion.fromDate = :date
       """)
     List<PromotionApply> findActivePromotion(@Param("date") LocalDate date);
+
+    @Query("""
+      SELECT pa
+        FROM PromotionApply pa
+       WHERE pa.priceSnapshot.snapshotId = :snapshotId
+         AND pa.promotion.fromDate <= :onDate
+         AND pa.promotion.toDate   >= :onDate
+      """)
+    List<PromotionApply> findActiveBySnapshotOn(
+        @Param("snapshotId") Integer snapshotId,
+        @Param("onDate") LocalDate onDate);
+
 }
