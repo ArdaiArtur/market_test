@@ -1,12 +1,8 @@
 package com.market.market.controller;
 
-import com.market.market.dto.PriceHistoryDto;
-import com.market.market.dto.ProductDiscountDto;
 import com.market.market.dto.WeeklyPriceHistoryDto;
 import com.market.market.service.PriceSnapshotService;
-import com.market.market.service.ProductDiscountService;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

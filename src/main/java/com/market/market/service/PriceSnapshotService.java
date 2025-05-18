@@ -3,7 +3,6 @@ package com.market.market.service;
 import com.market.market.dto.PriceHistoryDto;
 import com.market.market.dto.WeeklyPriceHistoryDto;
 import com.market.market.entity.PriceSnapshot;
-import com.market.market.entity.PromotionApply;
 import com.market.market.repository.PriceSnapshotRepository;
 import com.market.market.repository.PromotionApplyRepository;
 
@@ -17,8 +16,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 @Service
 public class PriceSnapshotService {
 
@@ -95,37 +92,4 @@ public class PriceSnapshotService {
                 .toList();
     }
 
-    private Stream<PriceHistoryDto> mapWeekToDto(Map.Entry<LocalDate, List<PriceSnapshot>> entry) {
-        LocalDate weekStart = entry.getKey();
-        List<PriceSnapshot> weekSnaps = entry.getValue();
-
-        BigDecimal avgOriginal = weekSnaps.stream()
-                .map(PriceSnapshot::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .divide(BigDecimal.valueOf(weekSnaps.size()), 2, RoundingMode.HALF_UP);
-
-        BigDecimal discountPct = applyRepo
-                .findActivePromotion(weekStart).stream()
-                .map(PromotionApply::getPromotion)
-                .map(p -> p.getDiscountPct())
-                .findFirst()
-                .orElse(BigDecimal.ZERO);
-
-        BigDecimal discountAmount = avgOriginal
-                .multiply(discountPct)
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-
-        BigDecimal avgDiscounted = avgOriginal.subtract(discountAmount);
-
-        PriceSnapshot sample = weekSnaps.get(0);
-        return Stream.of(new PriceHistoryDto(
-                sample.getProduct().getProductId(),
-                sample.getProduct().getProductName(),
-                weekStart,
-                avgOriginal,
-                avgDiscounted,
-                discountPct,
-                discountAmount,
-                sample.getMagazine().getName()));
-    }
 }
