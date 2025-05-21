@@ -2,7 +2,6 @@ package com.market.market.service;
 
 import com.market.market.dto.PromotionDto;
 import com.market.market.entity.Promotion;
-import com.market.market.entity.PromotionApply;
 import com.market.market.repository.PromotionApplyRepository;
 import com.market.market.repository.PromotionRepository;
 import org.springframework.stereotype.Service;

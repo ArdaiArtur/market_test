@@ -1,7 +1,9 @@
 package com.market.market.service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,12 +37,12 @@ public class CartItemService {
     public List<MagazineProductDto> getGroupedCartItemsByMagazine(Integer cartId) {
         List<CartItem> items = cartItemRepo.findByCart_CartId(cartId);
         LocalDate today = LocalDate.now();
-        
+        LocalDate monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         Map<String, List<ProductInfoDto>> grouped = new HashMap<>();
 
         for (CartItem item : items) {
             List<PriceSnapshot> snapshots = snapshotRepo
-                .findByProduct_ProductIdAndSnapshotDate(item.getProduct().getProductId(), today);
+                .findByProduct_ProductIdAndSnapshotDate(item.getProduct().getProductId(), monday);
 
             for (PriceSnapshot snapshot : snapshots) {
                 Magazine mag = snapshot.getMagazine();

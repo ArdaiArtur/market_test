@@ -1,6 +1,7 @@
 package com.market.market.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record PriceAlertResponseDto(
@@ -10,6 +11,6 @@ public record PriceAlertResponseDto(
     BigDecimal targetPrice,
     boolean triggered,
     boolean active,
-    LocalDateTime createdAt,
+    LocalDate createdAt,
     LocalDateTime triggeredAt
 ) {}

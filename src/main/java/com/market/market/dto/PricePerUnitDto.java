@@ -1,15 +1,15 @@
 package com.market.market.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record PricePerUnitDto(
     String productId,
-    String productName,
-    String categoryName,
-    BigDecimal price,
-    BigDecimal packageQty,
-    String unitCode,
-    BigDecimal baseQty,          // e.g. 0.75 (liters or kilograms)
-    BigDecimal pricePerBaseUnit  // e.g. €/kg or €/l
+     String productName,
+     String brandName,
+     String categoryName,
+     BigDecimal packageQty,
+     String unitLabel,
+     List<ProductSnapshotDto> snapshots
 ) {}
 

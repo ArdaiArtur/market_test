@@ -1,6 +1,7 @@
 package com.market.market.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -51,7 +53,7 @@ public class PriceAlert {
     @Column(name = "created_at", nullable = false,
             updatable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "triggered_at")
     private LocalDateTime triggeredAt;
@@ -103,10 +105,10 @@ public class PriceAlert {
         this.triggered = triggered;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -115,6 +117,13 @@ public class PriceAlert {
     }
     public void setTriggeredAt(LocalDateTime triggeredAt) {
         this.triggeredAt = triggeredAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDate.now();
+        }
     }
 
 }

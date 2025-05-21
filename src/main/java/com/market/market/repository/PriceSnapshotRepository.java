@@ -40,5 +40,8 @@ public interface PriceSnapshotRepository extends JpaRepository<PriceSnapshot, In
 
     Optional<PriceSnapshot> findTopByProduct_ProductIdAndSnapshotDateOrderBySnapshotDateDesc(String productId, LocalDate snapshotDate);
 
-    List<PriceSnapshot> findByProduct_ProductIdAndSnapshotDate(String productId, LocalDate snapshotDate);       
+    List<PriceSnapshot> findByProduct_ProductIdAndSnapshotDate(String productId, LocalDate snapshotDate);  
+    
+    List<PriceSnapshot> findByProductProductIdAndSnapshotDateLessThanEqualOrderBySnapshotDateDesc(
+        String productId, LocalDate date);
 }
