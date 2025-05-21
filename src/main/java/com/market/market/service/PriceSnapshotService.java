@@ -7,6 +7,7 @@ import com.market.market.repository.PriceSnapshotRepository;
 import com.market.market.repository.PromotionApplyRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,6 +33,7 @@ public class PriceSnapshotService {
      * Returns weekly price‐history DTOs for a product between [from,to],
      * optional filters by storeId, categoryId, brandId.
      */
+    @Transactional(readOnly = true)
     public List<WeeklyPriceHistoryDto> getWeeklyPriceHistory(
             String productName,
             LocalDate from,

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.market.market.entity.Promotion;
 import com.market.market.entity.PromotionApply;
 
 @Repository
@@ -24,11 +25,11 @@ public interface PromotionApplyRepository extends JpaRepository<PromotionApply, 
     List<PromotionApply> findActiveOn(@Param("date") LocalDate date);
 
         @Query("""
-      SELECT pa
+      SELECT DISTINCT pa.promotion
         FROM PromotionApply pa
        WHERE pa.promotion.fromDate = :date
       """)
-    List<PromotionApply> findActivePromotion(@Param("date") LocalDate date);
+    List<Promotion> findActivePromotion(@Param("date") LocalDate date);
 
     @Query("""
       SELECT pa

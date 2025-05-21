@@ -1,5 +1,6 @@
 package com.market.market.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -25,13 +26,17 @@ public class Unit {
     @Column(name = "label", length = 50, nullable = false)
     private String label;
 
+    @Column(name = "conversion_factor", precision = 10, scale = 4, nullable = false)
+    private BigDecimal conversionFactor;  // e.g. 0.001 for g, 1 for kg
+
     // JPA requires a no-arg constructor
     public Unit() { }
 
     // Convenience constructor
-    public Unit(String code, String label) {
+    public Unit(String code, String label,BigDecimal conversionFactor) {
         this.code = code;
         this.label = label;
+        this.conversionFactor=conversionFactor;
     }
 
     // Getter & setter for unitId
@@ -56,6 +61,14 @@ public class Unit {
     }
     public void setLabel(String label) {
         this.label = label;
+    }
+
+        // Getter & setter for conversionFactor
+    public BigDecimal getConversionFactor() {
+        return conversionFactor;
+    }
+    public void setConversionFactor(BigDecimal conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
             @OneToMany(mappedBy="unit")

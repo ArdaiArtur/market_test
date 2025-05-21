@@ -22,4 +22,9 @@ public interface PromotionRepository extends JpaRepository<Promotion, Integer> {
         WHERE p.fromDate = :today
         """)
   List<Promotion> findPromotionsStartingToday(@Param("today") LocalDate today);
+
+  List<Promotion> findByFromDateGreaterThanEqualAndToDateLessThanEqual(
+        LocalDate snapshotDate,
+        LocalDate snapshotDatePlus7
+    );
 }

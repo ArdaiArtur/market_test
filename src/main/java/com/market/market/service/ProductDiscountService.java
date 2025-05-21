@@ -7,6 +7,7 @@ import com.market.market.entity.PromotionApply;
 import com.market.market.entity.Product;
 import com.market.market.repository.PromotionApplyRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,6 +27,7 @@ public class ProductDiscountService {
     /**
      * Lists all products currently under promotion (today), sorted by promo discountPct desc.
      */
+    @Transactional(readOnly = true)
     public List<ProductDiscountDto> getBestDiscounts(LocalDate day) {
 
         if (day == null) {
@@ -33,12 +35,12 @@ public class ProductDiscountService {
         }
 
         return applyRepository.findActiveOn(day).stream()
-            .map(this::mapApplyToDto)
+            .map(this::mapToDto)
             .sorted(Comparator.comparing(ProductDiscountDto::discountPercentage).reversed())
             .toList();
     }
 
-    private ProductDiscountDto mapApplyToDto(PromotionApply apply) {
+    private ProductDiscountDto mapToDto(PromotionApply apply) {
         PriceSnapshot snapshot = apply.getPriceSnapshot();
         Product product       = snapshot.getProduct();
         Magazine magazine       = snapshot.getMagazine();
