@@ -110,9 +110,6 @@ public class ProductValueService {
                 }
 
                 // Calculate value per unit (price per standard unit)
-                // We need to:
-                // 1. Convert the package quantity to the base unit using conversion factor
-                // 2. Calculate price per base unit
                 BigDecimal standardizedQty = product.getPackageQty().multiply(product.getUnit().getConversionFactor());
                 BigDecimal valuePerUnit = latestSnapshot.getPrice().divide(standardizedQty, 4, RoundingMode.HALF_UP);
 
