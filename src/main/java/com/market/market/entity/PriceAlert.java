@@ -70,6 +70,10 @@ public class PriceAlert {
         return alertId;
     }
 
+    public void setAlertId(Integer alertId) {
+        this.alertId = alertId;
+    }
+
     public User getUser() {
         return user;
     }

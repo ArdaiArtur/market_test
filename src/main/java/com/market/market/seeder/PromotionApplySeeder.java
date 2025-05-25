@@ -36,6 +36,10 @@ public class PromotionApplySeeder {
      * Randomly pairs promotions with snapshots, skipping exact duplicates.
      */
     public void seed(int count) {
+        /*
+         * SET DATE HERE
+         */
+
         List<PriceSnapshot> snapshots = snapshotRepo.findBySnapshotDate(LocalDate.of(2025, 06, 30));
         if (snapshots.isEmpty()) return;
         Set<String> seen = new HashSet<>();

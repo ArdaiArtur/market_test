@@ -36,27 +36,32 @@ public class PriceSnapshotSeeder {
         List<Magazine> magazines = magazineRepository.findAll();
         List<Product> products = productRepository.findAll();
 
+        Optional<PriceSnapshot> latestSnapshot = priceSnapshotRepository.findTopByOrderBySnapshotDateDesc();
+                LocalDate baseDate = latestSnapshot
+                .map(snapshot -> snapshot.getSnapshotDate().plusDays(7)) // If exists, use the latest snapshot date
+                .orElse(LocalDate.now()); // Default to today if no snapshots exist
+
+
         for (int i = 0; i < count; i++) {
             // Randomly select magazine, product, and unit
             Magazine magazine = magazines.get(random.nextInt(magazines.size()));
             Product product = products.get(random.nextInt(products.size()));
 
-            Optional<PriceSnapshot> latestSnapshot = priceSnapshotRepository.findTopByOrderBySnapshotDateDesc();
-                LocalDate baseDate = latestSnapshot
-                .map(snapshot -> snapshot.getSnapshotDate().plusDays(7)) // If exists, use the latest snapshot date
-                .orElse(LocalDate.now()); // Default to today if no snapshots exist
-
+            
             // Create a new PriceSnapshot
+            if (!priceSnapshotRepository
+        .existsByMagazineAndProductAndSnapshotDate(magazine, product, baseDate)) {
             PriceSnapshot priceSnapshot = new PriceSnapshot();
             priceSnapshot.setMagazine(magazine);
             priceSnapshot.setProduct(product);
             priceSnapshot.setSnapshotDate(baseDate); // Random date within the last 30 days
-            priceSnapshot.setPrice(generateWeeklyPrice(priceSnapshotRepository.findFirstByProductProductIdOrderBySnapshotDateDesc(product.getProductId())
+            priceSnapshot.setPrice(generateWeeklyPrice(priceSnapshotRepository.findLatestPriceByProductId(product.getProductId())
             .orElse(BigDecimal.valueOf(5.00)) ));
             priceSnapshot.setCurrency("RON"); // Assuming USD as the currency
 
             // Save the PriceSnapshot to the database
             priceSnapshotRepository.save(priceSnapshot);
+        }
         }
     }
 

@@ -25,11 +25,13 @@ public class PromotionSeeder {
     public void seed(int count) {
         for (int i = 0; i < count; i++) {
             Promotion promotion = new Promotion();
-
-            LocalDate fromDate = LocalDate.now().plusDays(random.nextInt(60));
+            /*
+             * SET DATE HERE
+             */
+            LocalDate fromDate = LocalDate.of(2025, 06,23);
 
             // Add 1–12 days to get a valid toDate
-            LocalDate toDate = fromDate.plusDays(1 + random.nextInt(12));
+            LocalDate toDate = fromDate.plusDays(1 + random.nextInt(7));
 
 
             BigDecimal discount = BigDecimal.valueOf(

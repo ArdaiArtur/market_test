@@ -5,11 +5,9 @@ import com.market.market.dto.ProductSnapshotDto;
 import com.market.market.entity.PriceSnapshot;
 import com.market.market.entity.Product;
 import com.market.market.entity.PromotionApply;
-import com.market.market.repository.PriceSnapshotRepository;
 import com.market.market.repository.ProductRepository;
 import com.market.market.repository.PromotionApplyRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,14 +23,15 @@ import java.util.stream.Collectors;
 @Service
 public class ProductValueService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private PriceSnapshotRepository priceSnapshotRepository;
+    private final PromotionApplyRepository promotionApplyRepository;
 
-    @Autowired
-    private PromotionApplyRepository promotionApplyRepository;
+    public ProductValueService(ProductRepository productRepository,PromotionApplyRepository promotionApplyRepository)
+    {
+        this.productRepository=productRepository;
+        this.promotionApplyRepository=promotionApplyRepository;
+    }
     /**
      * Get value per unit for products in a specific category
      * @param categoryId The category ID to filter products
