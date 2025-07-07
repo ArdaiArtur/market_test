@@ -21,7 +21,7 @@ Docker Compose
 
 ```bash
 git clone https://github.com/ArdaiArtur/market_test.git
-cd your-repo-name
+cd cd market_test
 ```
 
 ### 2. Build the project
